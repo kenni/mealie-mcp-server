@@ -92,6 +92,27 @@ class MealplanMixin:
         )
         return self._handle_request("POST", "/api/households/mealplans", json=payload)
 
+    def delete_mealplan(self, item_id: int) -> Dict[str, Any]:
+        """Delete a mealplan entry.
+
+        Args:
+            item_id: ID of the mealplan entry to delete
+
+        Returns:
+            JSON response containing the deleted mealplan entry
+
+        Raises:
+            ValueError: If item_id is not provided
+            MealieApiError: If the API request fails
+        """
+        if item_id is None:
+            raise ValueError("Mealplan item ID cannot be empty")
+
+        logger.info({"message": "Deleting mealplan entry", "item_id": item_id})
+        return self._handle_request(
+            "DELETE", f"/api/households/mealplans/{item_id}"
+        )
+
     def get_todays_mealplan(self) -> List[Dict[str, Any]]:
         """Get the mealplan entries for today.
 
